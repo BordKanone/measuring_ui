@@ -10,10 +10,19 @@ export function App() {
   const [message, setMessage] = useState()
 
 
-  async function fetchMessage(){
-      const response = await GetMessage.getAll();
-      setMessage(response.area.points[1].channels[1])
-  }
+  // async function fetchMessage(){
+  //     const response = await GetMessage.getAll();
+  //     setMessage(response.area.points[1].channels[1])
+  // }
+
+  useEffect(()=>{
+    GetMessage.getAll().then(res => res.json()).then(res=>{
+      console.log('callback', res)
+      if(res.area){
+        setMessage(res.area.points[1].channels[1])
+      }
+    })
+  },[])
 
   return (
     <div className="App">
@@ -36,7 +45,7 @@ export function App() {
         <div className="graphContainer">
           
           <div>
-            <GraphMeasuring channel={message} />
+            {!!message && <GraphMeasuring channel={message} />}
           </div>
         </div>
     </div>

@@ -24,17 +24,8 @@ ChartJS.register(
 
 export default function GraphMeasuring({channel}){
 
-  const [labels, setLabels] = useState()
-  const [periods, setPeriods] = useState([])
-
-  
-  useState(()=>{
-    if(channel){
-      
-    }
-      setLabels(channel)
-      setPeriods(...channel.period)
-  },[channel])
+  const [labels, setLabels] = useState(channel)
+  const [periods, setPeriods] = useState([...channel.period])
 
   const options = {
     responsive: true,
