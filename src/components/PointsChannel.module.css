@@ -1,0 +1,13 @@
+.pointCard {
+    margin-top: 20px;
+    background-color: rgb(241, 241, 241);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.graphChannel {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+}

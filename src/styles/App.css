@@ -33,6 +33,5 @@
 }
 
 .graphContainer > div {
-    border: 2px solid;
     min-width: 800px;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,9 +8,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import faker from 'faker';
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -22,39 +21,53 @@ ChartJS.register(
   Legend
 );
 
-export default function GraphMeasuring({channel}){
+export default function GraphMeasuring({ channel }) {
+  const [labels, setLabels] = useState([]);
+  const [periods, setPeriods] = useState([...channel.period]);
+  const [value, setValue] = useState([]);
 
-  const [labels, setLabels] = useState(channel)
-  const [periods, setPeriods] = useState([...channel.period])
+  console.log("sada", periods);
+
+  useEffect(() => {
+    const labelsMap = [];
+    const valueMap = [];
+    periods.forEach((item) => {
+      labelsMap.push(item.start)
+      valueMap.push(item.value)
+    });
+
+    setLabels(labelsMap)
+    setValue(valueMap)
+  }, [periods]);
 
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: `${labels.desc}`,
+        text: `${channel.desc}`,
       },
     },
   };
 
   const data = {
-    periods,
+    labels,
     datasets: [
       {
-        label: 'Значение измерений',
-        data: periods.map((period) => period.value),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        label: "Значение измерений",
+        data: value,
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
   };
 
-  return(
-    <div>
+  return (
+    <div >
       <Line options={options} data={data} />
     </div>
-  )
+  );
 }

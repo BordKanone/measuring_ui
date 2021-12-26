@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from "react"; 
-import GraphMeasuring from "./components/GraphMeasuring";
 import './styles/App.css'
 import Header from "./components/UI/Header";
-import FormButton from "./components/UI/FormButton/FormButton";
+import CustomButton from "./components/UI/CustomButton";
 import GetMessage from "./API/GetMessage";
+import { ViewProvider } from "./components/ViewProvider";
 
 export function App() {
 
-  const [message, setMessage] = useState()
+  const [view, setView] = useState('graph')
+  const [points, setPoints] = useState([])
+  const [areaInfo, setAreaInfo] = useState([])
 
+ 
 
-  // async function fetchMessage(){
-  //     const response = await GetMessage.getAll();
-  //     setMessage(response.area.points[1].channels[1])
-  // }
 
   useEffect(()=>{
-    GetMessage.getAll().then(res => res.json()).then(res=>{
+    GetMessage.getAll().then(res =>{
       console.log('callback', res)
       if(res.area){
-        setMessage(res.area.points[1].channels[1])
+        setPoints(res.area.points)
       }
     })
   },[])
+
+
+  const changeView = (e)=>{
+    setView(e.target.id)
+  }
 
   return (
     <div className="App">
@@ -30,22 +34,18 @@ export function App() {
           <Header/>
         </div>
         <div>
-          <FormButton style={{marginTop: '15px'}} onClick={fetchMessage}>
-                  Поулчить данные
-          </FormButton>
-          <FormButton style={{marginTop: '15px'}}>
+          <CustomButton style={{marginTop: '15px'}} onClick={changeView} id='graph'>
                   Графический вид
-          </FormButton>
+          </CustomButton>
           <div>
-            <FormButton style={{marginTop: '15px'}}>
+            <CustomButton style={{marginTop: '15px'}} onClick={changeView} id='table'>
                     Табличный вид
-            </FormButton>
+            </CustomButton>
           </div>
         </div>
         <div className="graphContainer">
-          
           <div>
-            {!!message && <GraphMeasuring channel={message} />}
+            {!!points && <ViewProvider view={view} points={points}/>}
           </div>
         </div>
     </div>
