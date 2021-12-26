@@ -26,7 +26,6 @@ export default function GraphMeasuring({ channel }) {
   const [periods, setPeriods] = useState([...channel.period]);
   const [value, setValue] = useState([]);
 
-  console.log("sada", periods);
 
   useEffect(() => {
     const labelsMap = [];

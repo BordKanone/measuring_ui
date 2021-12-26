@@ -1,0 +1,11 @@
+.header_info {
+    width: 80%;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.header_info > p {
+    padding: 0;
+    margin: 0;
+}

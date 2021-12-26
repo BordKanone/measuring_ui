@@ -9,7 +9,9 @@ export function App() {
 
   const [view, setView] = useState('graph')
   const [points, setPoints] = useState([])
-  const [areaInfo, setAreaInfo] = useState([])
+  const [area, setArea] = useState({name:'', inn:''})
+  const [sender, setSender] = useState({name:'', code:''})
+  const [ messageDate, setMessageDate] = useState({datetime: '', day:''})
 
  
 
@@ -19,6 +21,9 @@ export function App() {
       console.log('callback', res)
       if(res.area){
         setPoints(res.area.points)
+        setArea({name:res.area.name, inn:res.area.inn})
+        setSender({name:res.sender_name, code:res.sender_code})
+        setMessageDate({datetime:res.datetime, day:res.day})
       }
     })
   },[])
@@ -31,7 +36,7 @@ export function App() {
   return (
     <div className="App">
         <div className="header">
-          <Header/>
+          <Header sender={sender} messageDate={messageDate} area={area}/>
         </div>
         <div>
           <CustomButton style={{marginTop: '15px'}} onClick={changeView} id='graph'>
